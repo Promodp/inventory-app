@@ -1,0 +1,14 @@
+.App {
+  text-align: center;
+  background: #161718;
+}
+
+.table-cell{
+    display: block;
+    width: 50px;
+    text-align: center;
+    background: #161718;
+    border-radius: 6px;
+    padding: 8px 18px 8px 18px;
+    color: #7e8c45;
+}
