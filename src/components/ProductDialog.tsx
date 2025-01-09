@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Box, Typography } from "@mui/material";
+import {Constant} from '../constants/constants.ts'
 
 interface ProductDialogProps {
   open: boolean;
@@ -38,10 +39,12 @@ const ProductDialog: React.FC<ProductDialogProps> = ({
 
   if (!product) return null;
 
+  //TODO: Update the colors from the palettes
+
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle sx={{ backgroundColor: "#282a27", color: "#ffffff", fontSize:'24px' }}>
-        Edit product
+       {Constant.HEADER_TITLE}
       </DialogTitle>
       <DialogContent sx={{ backgroundColor: "#282a27", color: "#ffffff", marginTop: "-18px" }}>
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
@@ -49,7 +52,7 @@ const ProductDialog: React.FC<ProductDialogProps> = ({
 
           <Box sx={{ display: "flex", gap: 2 }}>
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2, flex: 1 }}>
-              <label style={{ color: "#ffffff" }}>Category</label>
+              <label style={{ color: "#ffffff" }}>{Constant.CATEGORY}</label>
               <input
                 type="text"
                 value={product.category}
@@ -62,7 +65,7 @@ const ProductDialog: React.FC<ProductDialogProps> = ({
                   borderRadius: "4px",
                 }}
               />
-              <label style={{ color: "#ffffff" }}>Quantity</label>
+              <label style={{ color: "#ffffff" }}>{Constant.QUANTITY}</label>
               <input
                 type="number"
                 value={product.quantity}
@@ -78,7 +81,7 @@ const ProductDialog: React.FC<ProductDialogProps> = ({
             </Box>
 
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2, flex: 1 }}>
-              <label style={{ color: "#ffffff" }}>Price</label>
+              <label style={{ color: "#ffffff" }}>{Constant.PRICE}</label>
               <input
                 type="number"
                 value={product.price}
@@ -91,7 +94,7 @@ const ProductDialog: React.FC<ProductDialogProps> = ({
                   borderRadius: "4px",
                 }}
               />
-              <label style={{ color: "#ffffff" }}>Value</label>
+              <label style={{ color: "#ffffff" }}>{Constant.VALUE}</label>
               <input
                 type="number"
                 value={product.value}
@@ -110,10 +113,10 @@ const ProductDialog: React.FC<ProductDialogProps> = ({
       </DialogContent>
       <DialogActions sx={{ backgroundColor: "#282a27" }}>
         <Button onClick={onClose} sx={{  color: "#7e8c45" }}>
-          Cancel
+          {Constant.CANCEL}
         </Button>
         <Button onClick={handleSave} variant="contained" sx={{ color: "#7e8c45", backgroundColor: "#3e413c" }}>
-          Save
+        {Constant.SAVE}
         </Button>
       </DialogActions>
     </Dialog>

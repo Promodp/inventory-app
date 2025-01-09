@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Container, Typography } from "@mui/material";
 import AppBarComponent from "./Header.tsx";
 import ProductTable from "./ProductTable.tsx";
 import CardStats from "./CardStats.tsx";
 import ProductDialog from "./ProductDialog.tsx";
+import { fetchInventoryData } from "../helpers/useApiCall.ts";
+import { Labels } from "../constants/constants.ts";
 
 interface Product {
   id: number;
@@ -22,7 +23,7 @@ const InventoryApp: React.FC = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [openDialog, setOpenDialog] = useState(false);
 
-  // Widgets
+  
   const totalProducts = products.filter((p) => !p.disabled).length;
   const totalStoreValue = products.reduce(
     (sum, p) => sum + (!p.disabled ? p.value : 0),
@@ -35,19 +36,15 @@ const InventoryApp: React.FC = () => {
   ).size;
 
   useEffect(() => {
-    axios
-      .get("https://dev-0tf0hinghgjl39z.api.raw-labs.com/inventory")
-      .then((response) => {
-        setProducts(
-          response.data.map((item: any) => ({
-            ...item,
-            price: parseFloat(item.price.replace("$", "")), // Remove $ and convert to number
-            value: parseFloat(item.price.replace("$", "")) * item.quantity, // Calculate value
-            disabled: false,
-          }))
-        );
-      })
-      .catch((error) => console.error("Error fetching data:", error));
+    const loadData = async () => {
+      try {
+        const data = await fetchInventoryData();
+        setProducts(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    loadData();
   }, []);
 
   const handleDelete = (name: string) => {
@@ -55,20 +52,18 @@ const InventoryApp: React.FC = () => {
   };
 
   const handleEdit = (product: Product) => {
-    // Set the selected product and open the dialog
     setSelectedProduct(product);
     setOpenDialog(true);
   };
 
   const handleSave = (updatedProduct: Product) => {
-    console.log(updatedProduct,"updatedProduct")
     setProducts((prev) =>
       prev.map((product) =>
         product.name === updatedProduct.name ? updatedProduct : product
       )
     );
-    setOpenDialog(false); // Close dialog after save
-    setSelectedProduct(null); // Clear selected product
+    setOpenDialog(false);
+    setSelectedProduct(null);
   };
 
   const handleDisable = (name: string) => {
@@ -90,15 +85,14 @@ const InventoryApp: React.FC = () => {
           margin: "15px 0 0 22px",
         }}
       >
-        Inventory stats
+        {Labels.INVENTORY_STATS}
       </Typography>
 
       <Container
         sx={{
-          mt: 4,
-          backgroundColor: "#161718",
+          backgroundColor: "var(--palette-background-dark)",
           minHeight: "100vh",
-          padding: 2,
+          marginTop: "10px",
           maxWidth: "1500px !important",
         }}
       >

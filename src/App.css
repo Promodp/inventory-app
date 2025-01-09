@@ -1,3 +1,14 @@
+#root {
+  --palette-white: #ffffff;
+  --palette-light-green: #7e8c45; 
+  --palette-background-dark: #161718;
+  --palette-background-light: #212024; 
+  --palette-border: #343336; 
+  --palette-border-hover: #27292b; 
+  --palette-light-grey: #3e413c;
+  --palette-card-bg:#243325;
+}
+
 .App {
   text-align: center;
   background: #161718;
